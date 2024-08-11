@@ -1,21 +1,7 @@
-package main
+package PaintingOver
 
-import (
-	"fmt"
-)
 
-func main() {
-	section := []int {1, 3, 6, 7}
-	//fmt.Println(section[:1])
-	fmt.Println(solution(10,3, section))
-	/*
-	1 2 3 4 5 6 7 8 9 10
-	x   x     x x   
-	2번  
-	*/
-}
-
-func solution(n int, m int, section []int) int {
+func Solution(n int, m int, section []int) int {
     isPainted := make(map[int]bool)
     for i:=0; i<n; i++ {
         isPainted[i+1] = true
@@ -38,7 +24,7 @@ func solution(n int, m int, section []int) int {
                         if to >= section[i] {
 							isPainted[section[i]]= true
                             paintedIdx = i
-							fmt.Println("paint ", section[i])
+						
                         }
                     }
                     section = section[paintedIdx+1:]
@@ -58,7 +44,7 @@ func solution(n int, m int, section []int) int {
                         if from <= section[i] {
 							isPainted[section[i]]= true
                             paintedIdx = i
-							fmt.Println("paint ", section[i])
+				
                         }
                     }
                     section = section[:paintedIdx]
