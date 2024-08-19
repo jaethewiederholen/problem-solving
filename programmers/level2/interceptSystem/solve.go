@@ -1,10 +1,9 @@
-package main
+package interceptSystem
 
 import (
-	"fmt"
 	"sort"
 )
-func solution(targets [][]int) int {
+func Solution(targets [][]int) int {
     
     sort.Slice(targets, func(i,j int) bool {
         if targets[i][0] < targets[j][0] {
@@ -34,13 +33,4 @@ func solution(targets [][]int) int {
         }
     }
     return ans
-}
-
-
-func main() {
-    var targets [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-    fmt.Println(solution(targets))
-//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
-//     [[0, 4], [0, 1], [2, 3]] => 2
-	
 }
