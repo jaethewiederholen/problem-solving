@@ -1,9 +1,7 @@
-package main
+package sequence
 
-import (
-	"fmt"
-	"math"
-)
+import "math"
+
 
 func solution(sequence []int, k int) []int {
     seqLen := int(math.Pow(10,6))
@@ -18,13 +16,15 @@ func solution(sequence []int, k int) []int {
         }
         for j:= i-1; j>= 0; j-- {
             sum += sequence[j]
-            if sum > k { 
+            if i-j > seqLen {
+                break
+            } else if sum > k { 
                 break
             } else if sum == k { 
                 if i - j < seqLen {
                     startIdx = j
                     endIdx = i
-                } else if j - i == seqLen {
+                } else if i - j == seqLen {
                     if startIdx > j {
                         startIdx = j
                         endIdx = i
@@ -35,12 +35,4 @@ func solution(sequence []int, k int) []int {
         }
     }
     return []int{startIdx, endIdx}
-}
-
-func main() {
-    //var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-    fmt.Println(solution([]int{2, 2, 2, 2, 2}, 6))
-//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
-//     [[0, 4], [0, 1], [2, 3]] => 2
-	
 }
