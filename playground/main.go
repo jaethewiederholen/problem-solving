@@ -2,44 +2,44 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 func solution(sequence []int, k int) []int {
-    seqLen := int(math.Pow(10,6))
-    startIdx, endIdx :=int(math.Pow(10,6)) , 0
-    for i:= len(sequence)-1; i >= 0; i-- {
-        sum := sequence[i]
+    start, end, sum := len(sequence)-1, len(sequence)-1, sequence[len(sequence)-1]
+    ans := make([]int,2)
+    //if sum == k { return []int{start, end}}
+    for {
+        if start > end { break }
         if sum == k {
-            if i < startIdx {
-                startIdx, endIdx = i, i
-                seqLen = 0
-            }
-        }
-        for j:= i-1; j>= 0; j-- {
-            sum += sequence[j]
-            if sum > k { 
-                break
-            } else if sum == k { 
-                if i - j < seqLen {
-                    startIdx = j
-                    endIdx = i
-                } else if j - i == seqLen {
-                    if startIdx > j {
-                        startIdx = j
-                        endIdx = i
-                    }
+            ans[0] , ans[1] = start, end
+            for {
+                if start > 0 && end > 0 {
+                    start -= 1
+                    sum += sequence[start]
+                    sum -= sequence[end]
+                    end -= 1
+                    if k == sum {
+                        ans[0] , ans[1] = start, end
+                    } else { return ans}
+                } else {
+                    return ans
                 }
             }
-
+        } else if sum < k {
+            start -= 1 
+            sum += sequence[start]
+        } else {
+            sum -= sequence[end]
+            end -= 1
         }
     }
-    return []int{startIdx, endIdx}
+    return ans
 }
+
 
 func main() {
     //var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-    fmt.Println(solution([]int{2, 2, 2, 2, 2}, 6))
+    fmt.Println(solution([]int{7,5,5,1,1,50,50}, 100))
 //     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
 //     [[0, 4], [0, 1], [2, 3]] => 2
 	
