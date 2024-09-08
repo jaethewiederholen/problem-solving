@@ -1,10 +1,6 @@
-package main
+package twoSum
 
-import (
-	"fmt"
-)
-
-func solution(nums []int, target int) []int {
+func Solution(nums []int, target int) []int {
     type aInfo struct {
         idx int
     }
@@ -23,12 +19,4 @@ func solution(nums []int, target int) []int {
 
     }
     return ans
-}
-
-func main() {
-    //var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-    fmt.Println(solution([]int{3,2,4}, 6))
-//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
-//     [[0, 4], [0, 1], [2, 3]] => 2
-	
 }
