@@ -1,10 +1,6 @@
-package main
+package maxArea
 
-import (
-	"fmt"
-)
-
-func solution(height []int) int {
+func TwoPointerSolution(height []int) int {
     start := 0
     end := len(height)-1
     max := 0
@@ -29,12 +25,4 @@ func solution(height []int) int {
         }
     }
     return max
-}
-
-func main() {
-    //var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-    fmt.Println(solution([]int{1,8,6,2,5,4,8,3,7}))
-//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
-//     [[0, 4], [0, 1], [2, 3]] => 2
-	
 }
