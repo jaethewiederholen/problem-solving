@@ -18,7 +18,7 @@ func twoSum(nums []int, target int) [][2]int {
 	return sets
 }
 
-func solution(nums []int) [][]int {
+func Solution(nums []int) [][]int {
 	sort.Slice(nums, func(i, j int) bool {
 		return nums[i] < nums[j]
 	})
@@ -31,14 +31,10 @@ func solution(nums []int) [][]int {
 		}
 
 		target := 0 - elem1
-		twoSumAns := make(map[[2]int]bool)
+		//twoSumAns := make(map[[2]int]bool)
 		twoSets := twoSum(nums[i+1:], target)
 
-		for _, set := range twoSets {
-			twoSumAns[set] = true
-		}
-
-		for twoSum, _ := range twoSumAns {
+		for _, twoSum := range twoSets {
 			threeSum := [3]int{elem1, twoSum[0], twoSum[1]}
 			threeSumAns[threeSum] = true
 		}
@@ -46,6 +42,39 @@ func solution(nums []int) [][]int {
 	var ans [][]int
 	for threeSum, _ := range threeSumAns {
 		ans = append(ans, []int{threeSum[0], threeSum[1], threeSum[2]})
+	}
+	return ans
+}
+
+func TwoPointerSolution(nums []int) [][]int {
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] < nums[j]
+	})
+	var ans [][]int
+
+	for i := 0; i < len(nums)-2; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+		target, left, right := -nums[i], i+1, len(nums)-1
+		for left < right {
+			sum := nums[left] + nums[right]
+			if sum == target {
+				ans = append(ans, []int{nums[i], nums[left], nums[right]})
+				left++
+				right--
+				for left < right && nums[left] == nums[left-1] {
+					left++
+				}
+				for left < right && nums[right] == nums[right+1] {
+					right--
+				}
+			} else if sum > target {
+				right--
+			} else if sum < target {
+				left++
+			}
+		}
 	}
 	return ans
 }
