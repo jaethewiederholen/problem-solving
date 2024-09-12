@@ -2,59 +2,57 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
-func twoSum(nums []int, target int) [][2]int {
-	bMap := make(map[int]bool)
-	var sets [][2]int
-	for _, b := range nums {
-		if bMap[b] {
-			set := [2]int{target - b, b}
-			sets = append(sets, set)
-		} else {
-			bMap[target-b] = true
-		}
-	}
-	return sets
+func abs(num int) int {
+    if num < 0 {
+        return -num
+    }
+    return num
 }
 
-func solution(nums []int) [][]int {
-	sort.Slice(nums, func(i, j int) bool {
-		return nums[i] < nums[j]
-	})
-	fmt.Println(nums)
-	threeSumAns := make(map[[3]int]bool)
-
-	for i := 0; i < len(nums); i++ {
-		elem1 := nums[i]
-		if elem1 > 0 {
-			break
-		}
-
-		target := 0 - elem1
-		twoSumAns := make(map[[2]int]bool)
-		twoSets := twoSum(nums[i+1:], target)
-
-		for _, set := range twoSets {
-			twoSumAns[set] = true
-		}
-
-		for twoSum, _ := range twoSumAns {
-			threeSum := [3]int{elem1, twoSum[0], twoSum[1]}
-			threeSumAns[threeSum] = true
-		}
-	}
-	var ans [][]int
-	for threeSum, _ := range threeSumAns {
-		ans = append(ans, []int{threeSum[0], threeSum[1], threeSum[2]})
-	}
-	return ans
+func solution(nums []int, target int) int {
+    sort.Slice(nums, func(i int, j int) bool {
+        return nums[i] < nums[j]
+    })
+    minDiff := math.MaxInt64
+    diffMap := make(map[int]int) // diff - 3sum
+    for i:=0; i < len(nums)-2; i++ {
+        if i>0 && nums[i] == nums[i-1] {
+            continue
+        }
+        start, end, twoSumTarget :=  i+1, len(nums)-1, target-nums[i]
+        for start < end {
+            twoSum := nums[start] + nums[end]
+            if twoSum == twoSumTarget {
+                return target
+            } else if twoSum < twoSumTarget {
+                diff := abs(twoSumTarget-twoSum)
+                if minDiff > diff {
+                    minDiff = diff
+                    diffMap[minDiff] = twoSum + nums[i]
+                }
+                start++
+            } else if twoSum > twoSumTarget {
+                diff := abs(twoSumTarget-twoSum)
+                if minDiff > diff {
+                    minDiff = diff
+                    diffMap[minDiff] = twoSum + nums[i]
+                }
+                end-- 
+            }
+        }
+    }
+    return diffMap[minDiff]
+    
 }
+
 
 func main() {
 	//var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-	fmt.Println(solution([]int{-2, 0, 0, 2, 2}))
+	fmt.Println(solution([]int{-1000,-1000,-1000}, 10000))
 	//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
 	//     [[0, 4], [0, 1], [2, 3]] => 2
 
