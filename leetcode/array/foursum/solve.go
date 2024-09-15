@@ -1,9 +1,7 @@
-package main
+package fourSum
 
-import (
-	"fmt"
-	"sort"
-)
+import "sort"
+
 
 func threeSum(nums []int, target int) [][]int {
     sort.Slice(nums, func(i, j int) bool {
@@ -38,7 +36,7 @@ func threeSum(nums []int, target int) [][]int {
     return ans
 }
 
-func solution(nums []int, target int) [][]int {
+func Solution(nums []int, target int) [][]int {
     sort.Slice(nums, func(i int, j int) bool {
         return nums[i] < nums[j]
     })
@@ -55,13 +53,4 @@ func solution(nums []int, target int) [][]int {
         }
     }
     return ans
-}
-
-
-func main() {
-	//var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-	fmt.Println(solution([]int{1,-2,-5,-4,-3,3,3,5}, -11))
-	//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
-	//     [[0, 4], [0, 1], [2, 3]] => 2
-
 }
