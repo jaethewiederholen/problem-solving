@@ -4,39 +4,31 @@ import (
 	"fmt"
 )
 
-func solution(s string) int {
-	start, end, maxLen := 0, 0, 1
-	characters := make(map[rune]bool)
-	if len(s) == 0 {
-		return 0
-	}
-	characters[rune(s[0])] = true
-	for end < len(s)-1 {
-		end++
-		endChar := s[end]
-		if characters[rune(endChar)] {
-			for {
-				if s[start] == endChar {
-					start++
-					break
-				}
-				characters[rune(s[start])] = false
-				start++
+func solution(nums []int, k int) bool {
+	i, j := 0, 0
+	contains := make(map[int]bool)
+	for j < len(nums) {
+		if contains[nums[j]] && j-i <= k {
+			fmt.Println(i, j)
+			return true
+		}
+		if j-i > k {
+			for j-i > k {
+				delete(contains, nums[i])
+				i++
 			}
 		} else {
-			characters[rune(endChar)] = true
+			contains[nums[j]] = true
+			j++
 		}
-		if end-start+1 > maxLen {
-			maxLen = end - start + 1
-		}
-		fmt.Println(start, end, maxLen)
+		fmt.Println(i, j)
 	}
-	return maxLen
+	return false
 }
 
 func main() {
 	//var sequence [][]int = [][]int{{0,4}, {1,2}, {1,3}, {3,4}}
-	fmt.Println(solution("tmmzuxt"))
+	fmt.Println(solution([]int{1, 2, 3, 1, 2, 3}, 2))
 	//     [[0, 4], [1, 2], [1, 3], [3, 4]] => 2
 	//     [[0, 4], [0, 1], [2, 3]] => 2
 
